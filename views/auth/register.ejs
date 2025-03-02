@@ -1,0 +1,17 @@
+<%- include("../layouts/header") %>
+<h2>Register</h2>
+<% if (error) { %>
+<p style="color: red"><%= error %></p>
+<% } %>
+<form action="/auth/register" method="POST">
+  <input type="text" name="name" placeholder="Full Name" required />
+  <input type="email" name="email" placeholder="Email" required />
+  <input type="password" name="password" placeholder="Password" required />
+  <input type="number" name="YOB" placeholder="Year of Birth" />
+  <select name="gender">
+    <option value="true">Male</option>
+    <option value="false">Female</option>
+  </select>
+  <button type="submit">Register</button>
+</form>
+<%- include("../layouts/footer") %>

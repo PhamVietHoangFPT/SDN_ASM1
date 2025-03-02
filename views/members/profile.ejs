@@ -1,0 +1,23 @@
+<%- include("../layouts/header") %>
+
+  <h2>My Profile</h2>
+  <p><strong>Name:</strong>
+    <%= user.name %>
+  </p>
+  <p><strong>Email:</strong>
+    <%= user.email %>
+  </p>
+  <p><strong>Year of Birth:</strong>
+    <%= user.YOB %>
+  </p>
+  <p><strong>Gender:</strong>
+    <%= user.gender ? "Male" : "Female" %>
+  </p>
+
+  <a href="/members/editProfile">Edit Profile</a>
+
+  <a href="/members/changePassword">Change Password</a>
+
+  <a href="/auth/logout">Logout</a>
+
+  <%- include("../layouts/footer") %>

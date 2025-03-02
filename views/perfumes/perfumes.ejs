@@ -1,0 +1,19 @@
+<%- include("../layouts/header") %>
+
+  <h2>Perfumes</h2>
+  <% if (user) { %>
+    <% if (user.isAdmin) { %>
+      <a href="/perfumes/add">+ Add New Perfume</a>
+      <% } }%>
+        <% if (perfumes.length> 0) { %>
+          <% perfumes.forEach(perfume=> { %>
+            <li>
+              <a href="/perfumes">
+                <%= perfume.perfumeName %>
+              </a>
+            </li>
+            <% }) %>
+              <% } else { %>
+                <h5>No perfumes available</h5>
+                <% } %>
+                  <%- include("../layouts/footer") %>

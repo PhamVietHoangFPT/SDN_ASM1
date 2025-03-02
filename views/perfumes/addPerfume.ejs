@@ -1,0 +1,38 @@
+<%- include("../layouts/header") %>
+  <h2>Add New Brand</h2>
+  <% if (error) { %>
+    <p style="color: red">
+      <%= error %>
+    </p>
+    <% } %>
+      <form action="/perfumes/add" method="POST" style="display: flex;
+    flex-direction: column;
+    width: 50%;
+      ">
+        <input type="text" name="perfumeName" placeholder="Perfume Name" required />
+        <input type="url" name="uri" : placeholder="Perfume image url" required />
+        <input type="number" name="price" placeholder="Perfume Price" required />
+        <input type="text" name="concentration" placeholder="Perfume Concentration" required />
+        <input type="text" name="description" placeholder="Perfume Description" required />
+        <input type="text" name="ingredients" placeholder="Perfume Ingredients" required />
+        <input type="number" name="volume" placeholder="Perfume Volume" required />
+        <select name="targetAudience" id="">
+          <option value="true">Male</option>
+          <option value="false">Femail</option>
+        </select>
+
+        <% if (brands && brands.length> 0) { %>
+          <select name="brand">
+            <% brands.forEach(brand=> { %>
+              <option value="<%= brand._id %>">
+                <%= brand.brandName %>
+              </option>
+              <% }) %>
+          </select>
+          <% } else { %>
+            <h3>No brands available</h3>
+            <% } %>
+
+              <button type="submit">Add Perfume</button>
+      </form>
+      <%- include("../layouts/footer") %>

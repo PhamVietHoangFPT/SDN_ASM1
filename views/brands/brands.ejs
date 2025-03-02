@@ -1,0 +1,16 @@
+<%- include("../layouts/header") %>
+  <h2>Brands List</h2>
+  <% if (user) { %>
+    <% if (user.isAdmin) { %>
+      <a href="/brands/add">+ Add New Brand</a>
+      <% } }%>
+        <% if (brands.length> 0) { %>
+          <% brands.forEach(brand=> { %>
+            <li>
+              <%= brand.brandName %>
+            </li>
+            <% }) %>
+              <% } else { %>
+                <h5>No brands available</h5>
+                <% } %>
+                  <%- include("../layouts/footer") %>

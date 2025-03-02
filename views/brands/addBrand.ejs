@@ -1,0 +1,10 @@
+<%- include("../layouts/header") %>
+<h2>Add New Brand</h2>
+<% if (error) { %>
+<p style="color: red"><%= error %></p>
+<% } %>
+<form action="/brands/add" method="POST">
+  <input type="text" name="brandName" placeholder="Brand Name" required />
+  <button type="submit">Add Brand</button>
+</form>
+<%- include("../layouts/footer") %>

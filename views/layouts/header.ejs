@@ -1,0 +1,17 @@
+<header>
+  <nav>
+    <a href="/">Home</a>
+    <a href="/perfumes">Perfumes</a>
+    <a href="/brands">Brands</a>
+    <% if (user) { %>
+      <% if (user.isAdmin) { %>
+        <a href="/admin">Admin Dashboard</a>
+        <% } %>
+          <a href="/members/profile">Profile</a>
+          <a href="/auth/logout">Logout</a>
+          <% } else { %>
+            <a href="/auth/login">Login</a>
+            <a href="/auth/register">Register</a>
+            <% } %>
+  </nav>
+</header>

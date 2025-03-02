@@ -1,0 +1,23 @@
+<%- include("../layouts/header") %>
+
+<h2>All Members</h2>
+<table border="1">
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Year of Birth</th>
+    <th>Gender</th>
+    <th>Role</th>
+  </tr>
+  <% members.forEach(member => { %>
+  <tr>
+    <td><%= member.name %></td>
+    <td><%= member.email %></td>
+    <td><%= member.YOB %></td>
+    <td><%= member.gender ? "Male" : "Female" %></td>
+    <td><%= member.isAdmin ? "Admin" : "User" %></td>
+  </tr>
+  <% }); %>
+</table>
+
+<%- include("../layouts/footer") %>

@@ -1,0 +1,32 @@
+<%- include('../layouts/header') %>
+  <h2>
+    Edit Profile
+  </h2>
+  <form action="/members/editProfile" method="POST">
+    <label for="email">Email:</label>
+    <input type="email" name="email" value="<%= user.email %>" readonly />
+    <br>
+    <label for="name">Name:</label>
+    <input type="text" name="name" value="<%= user.name %>" required />
+    <br />
+    <label for="YOB">Year of Birth:</label>
+    <input type="number" name="YOB" value="<%= user.YOB %>" required />
+    <br />
+    <label for="gender">Gender: </label>
+    <select name="gender">
+      <option value="true">
+        Male
+      </option>
+      <option value="false">
+        Female
+      </option>
+    </select>
+    <br />
+    <button type="submit">
+      Save
+    </button>
+    <button type="button" onclick="window.location.href='/members/profile'">
+      Cancel
+    </button>
+  </form>
+  <%- include('../layouts/footer') %>
