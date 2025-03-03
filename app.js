@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser')
 var logger = require('morgan')
 const mongoose = require('mongoose')
 require('dotenv').config()
-const authMiddleware = require('./middlewares/authMiddleware')
 const verifyUser = require('./middlewares/vertifyUser')
 var indexRouter = require('./routes/index')
 var usersRouter = require('./routes/users')
@@ -48,11 +47,13 @@ const authRouter = require('./routes/authRoutes')
 const memberRouter = require('./routes/memberRoutes')
 const perfumeRouter = require('./routes/perfumeRoutes')
 const brandRouter = require('./routes/brandRoutes')
+const adminRouter = require('./routes/adminRoutes')
 
 app.use('/auth', authRouter)
 app.use('/members', memberRouter)
 app.use('/perfumes', perfumeRouter)
 app.use('/brands', brandRouter)
+app.use('/admin', adminRouter)
 
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" });

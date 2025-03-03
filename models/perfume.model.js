@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const commentSchema = require('./comment.model')
 
 const perfumeSchema = new mongoose.Schema(
   {
@@ -9,7 +10,8 @@ const perfumeSchema = new mongoose.Schema(
     description: { type: String, required: true },
     ingredients: { type: String, required: true },
     volume: { type: Number, required: true },
-    targetAudience: { type: Boolean, required: true }, // male, female, unisex
+    targetAudience: { type: String, required: true }, // male, female, unisex
+    comment: [commentSchema],
     brand: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Brands',

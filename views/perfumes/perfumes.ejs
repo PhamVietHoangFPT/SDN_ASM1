@@ -1,19 +1,55 @@
 <%- include("../layouts/header") %>
-
   <h2>Perfumes</h2>
-  <% if (user) { %>
-    <% if (user.isAdmin) { %>
-      <a href="/perfumes/add">+ Add New Perfume</a>
-      <% } }%>
-        <% if (perfumes.length> 0) { %>
-          <% perfumes.forEach(perfume=> { %>
-            <li>
-              <a href="/perfumes">
-                <%= perfume.perfumeName %>
-              </a>
-            </li>
-            <% }) %>
-              <% } else { %>
-                <h5>No perfumes available</h5>
-                <% } %>
-                  <%- include("../layouts/footer") %>
+  <% if (brands && brands.length> 0) { %>
+    <form action="/perfumes" method="GET">
+      <select name="searchBrand">
+        <option value="">All Brands</option>
+        <% brands.forEach(brand=> { %>
+          <option value="<%= brand._id %>">
+            <%= brand.brandName %>
+          </option>
+          <% }) %>
+      </select>
+      <input type="text" name="searchPerfumeName" placeholder="Search Perfumes">
+      <button type="submit">Search</button>
+    </form>
+    <% } else { %>
+      <h3>No brands available</h3>
+      <% } %>
+        <% if (user) { %>
+          <% if (user.isAdmin) { %>
+            <a href="/perfumes/add">+ Add New Perfume</a>
+            <% } }%>
+              <% if (perfumes.length> 0) { %>
+                <% perfumes.forEach(perfume=> { %>
+                  <li>
+                    <a href="/perfumes/<%= perfume._id %>">
+                      <%= perfume.perfumeName %>
+                    </a>
+                    <% if (user.isAdmin) { %>
+                      <button onclick="deletePerfume('<%= perfume.id %>')">Delete</button>
+                      <% } %>
+                  </li>
+                  <% }) %>
+                    <% } else { %>
+                      <h5>No perfumes available</h5>
+                      <% } %>
+                        <%- include("../layouts/footer") %>
+
+                          <script>
+                            function deletePerfume(perfumeId) {
+                              if (confirm("Are you sure you want to delete this brand?")) {
+                                fetch(`/perfumes/${perfumeId}`, {
+                                  method: "DELETE"
+                                })
+                                  .then((response) => response.json())
+                                  .then((data) => {
+                                    if (data.success) {
+                                      window.location.href = "/perfumes"; // Chuyển hướng sau khi xóa thành công
+                                    } else {
+                                      alert("Delete failed: " + data.error);
+                                    }
+                                  })
+                              }
+                            }
+                          </script>

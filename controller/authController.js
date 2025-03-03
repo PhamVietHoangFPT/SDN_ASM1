@@ -47,7 +47,7 @@ const login = async (req, res) => {
     }
     // Tạo token
     const user = { id: member._id, email: member.email, isAdmin: member.isAdmin, name: member.name, YOB: member.YOB, gender: member.gender };
-    res.cookie("user", JSON.stringify(user), { httpOnly: true, maxAge: 3600000 }) // Lưu token trong cookie
+    res.cookie("user", JSON.stringify(user), { httpOnly: true, maxAge: 7 * 24 * 60 * 60 * 1000 }) // Lưu token trong cookie
 
     // Nếu là admin, chuyển hướng đến /admin
     if (member.isAdmin) {

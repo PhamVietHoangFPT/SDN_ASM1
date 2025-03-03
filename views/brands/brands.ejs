@@ -4,13 +4,34 @@
     <% if (user.isAdmin) { %>
       <a href="/brands/add">+ Add New Brand</a>
       <% } }%>
-        <% if (brands.length> 0) { %>
+        <% if (brands && brands.length> 0) { %>
           <% brands.forEach(brand=> { %>
             <li>
               <%= brand.brandName %>
+                <% if (user.isAdmin) { %> <button onclick="deleteBrand('<%= brand._id %>')">Delete</button>
+                  <% } %>
             </li>
             <% }) %>
               <% } else { %>
                 <h5>No brands available</h5>
                 <% } %>
                   <%- include("../layouts/footer") %>
+
+                    <script>
+                      function deleteBrand(brandId) {
+                        if (confirm("Are you sure you want to delete this brand?")) {
+                          fetch(`/brands/${brandId}`, {
+                            method: "DELETE"
+                          })
+                            .then((response) => response.json())
+                            .then((data) => {
+                              if (data.success) {
+                                window.location.href = "/brands";
+                                alert(data.message) // Chuyển hướng sau khi xóa thành công
+                              } else {
+                                alert("Delete failed: " + data.error);
+                              }
+                            })
+                        }
+                      }
+                    </script>

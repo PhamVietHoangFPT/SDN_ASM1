@@ -11,4 +11,5 @@ memberRouter.route('/editProfile')
 
 memberRouter.route('/changePassword')
   .get(memberController.getEditPasswordPage)
+  .post(memberController.editPassword)
 module.exports = memberRouter

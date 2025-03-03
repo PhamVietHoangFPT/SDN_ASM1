@@ -17,8 +17,9 @@
         <input type="text" name="ingredients" placeholder="Perfume Ingredients" required />
         <input type="number" name="volume" placeholder="Perfume Volume" required />
         <select name="targetAudience" id="">
-          <option value="true">Male</option>
-          <option value="false">Femail</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="unisex">Unisex</option>
         </select>
 
         <% if (brands && brands.length> 0) { %>

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-commentSchema = new Schema({
+const commentSchema = new Schema({
   rating: {
     type: Number,
     min: 1,
@@ -19,5 +19,4 @@ commentSchema = new Schema({
 }, { timestamps: true }
 )
 
-const Comment = mongoose.model('Comments', commentSchema)
-module.exports = Comment
+module.exports = commentSchema

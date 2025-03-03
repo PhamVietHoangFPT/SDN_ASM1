@@ -1,6 +1,67 @@
 <%- include("../layouts/header") %>
-<h2><%= perfume.perfumeName %></h2>
-<img src="<%= perfume.uri %>" alt="<%= perfume.perfumeName %>" />
-<p><%= perfume.description %></p>
-<p>Price: $<%= perfume.price %></p>
-<%- include("../layouts/footer") %>
+  <h2>
+    <%= perfume.perfumeName %>
+  </h2>
+  <img src="<%= perfume.uri %>" alt="<%= perfume.perfumeName %>" />
+  <div style="border-bottom: 1px solid black">
+    <p>
+      <%= perfume.description %>
+    </p>
+    <p>
+      Price: $<%= perfume.price %>
+    </p>
+    <p>
+      Volume: <%= perfume.volume %> ml
+    </p>
+    <p>
+      Concentration: <%= perfume.concentration %>
+    </p>
+    <p>
+      Ingredients: <%= perfume.ingredients %>
+    </p>
+    <p>
+      Target Audience: <%= perfume.targetAudience %>
+    </p>
+    <p>
+      Brand:
+      <%= perfume.brand.brandName %>
+    </p>
+  </div>
+
+  </p>
+  <form action="/perfumes/<%= perfume._id %>/comment" method="POST">
+    <input name="content" id="content" placeholder="Content" required></input>
+    <input type="number" name="rating" id="rating" min="1" max="3" placeholder="Rating" style="width: 125px;"
+      required />
+    <button type="submit">Add Comment</button>
+  </form>
+  <% if (error) { %>
+    <p style="color: red">
+      <%= error %>
+    </p>
+    <% } %>
+      <% if (perfume.comment && perfume.comment.length> 0) { %>
+        <h3>Comments</h3>
+        <ul style="list-style-type: none; padding: 0;">
+          <% perfume.comment.forEach(comment=> { %>
+            <li style="border: 1px; border-style: solid; padding: 10px; margin-bottom: 10px;">
+              <h3>
+                <%= comment.author.name %>
+              </h3>
+              <p>
+                <%= comment.content %>
+              </p>
+              <p>
+                Rating: <%= comment.rating %>
+              </p>
+              <form action="/perfumes/<%= perfume._id %>/comment" method="GET">
+                <input type="hidden" name="delete" value="true" />
+                <input type="hidden" name="commentId" value="<%= comment.id %>" />
+                <button type="submit">Delete</button>
+              </form>
+            </li>
+
+            <% }) %>
+              <% } %>
+
+                <%- include("../layouts/footer") %>
