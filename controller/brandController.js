@@ -27,7 +27,6 @@ const getBrandPage = (req, res) => {
         res.render("brands/brands", { title: "Brand", error: err });
       });
   }
-
 }
 
 const getAddBrandPage = async (req, res) => {

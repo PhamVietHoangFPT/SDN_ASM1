@@ -1,4 +1,5 @@
 const Member = require('../models/member.model')
+const bcrypt = require('bcrypt')
 
 // UI: Hiển thị trang đăng ký
 const getRegisterPage = (req, res) => {
@@ -18,7 +19,8 @@ const register = async (req, res) => {
     }
 
     // Tạo user mới mà không băm mật khẩu
-    const newMember = new Member({ email, password, name, YOB, gender });
+    const hashPassword = bcrypt.hashSync(password, 10);
+    const newMember = new Member({ email, password: hashPassword, name, YOB, gender });
     await newMember.save();
 
     res.redirect('/') // Chuyển hướng sau khi đăng ký thành công
@@ -39,7 +41,7 @@ const login = async (req, res) => {
     const member = await Member.findOne({ email });
 
     // Kiểm tra email và mật khẩu
-    if (!member || member.password !== password) {
+    if (!member || await !bcrypt.compare(password, member.password)) {
       return res.render("auth/login", {
         title: "Login",
         error: "Invalid credentials",
