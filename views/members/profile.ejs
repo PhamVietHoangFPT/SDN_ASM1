@@ -1,23 +1,30 @@
 <%- include("../layouts/header") %>
 
-  <h2>My Profile</h2>
-  <p><strong>Name:</strong>
-    <%= user.name %>
-  </p>
-  <p><strong>Email:</strong>
-    <%= user.email %>
-  </p>
-  <p><strong>Year of Birth:</strong>
-    <%= user.YOB %>
-  </p>
-  <p><strong>Gender:</strong>
-    <%= user.gender ? "Male" : "Female" %>
-  </p>
+  <div class="container mt-5">
+    <div class="card shadow-lg p-4">
+      <h2 class="text-primary">My Profile</h2>
 
-  <a href="/members/editProfile">Edit Profile</a>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><strong>Name:</strong>
+          <%= user.name %>
+        </li>
+        <li class="list-group-item"><strong>Email:</strong>
+          <%= user.email %>
+        </li>
+        <li class="list-group-item"><strong>Year of Birth:</strong>
+          <%= user.YOB %>
+        </li>
+        <li class="list-group-item"><strong>Gender:</strong>
+          <%= user.gender ? "Male" : "Female" %>
+        </li>
+      </ul>
 
-  <a href="/members/changePassword">Change Password</a>
-
-  <a href="/auth/logout">Logout</a>
+      <div class="mt-4 d-flex flex-column gap-2">
+        <a href="/members/editProfile" class="btn btn-warning">Edit Profile</a>
+        <a href="/members/changePassword" class="btn btn-secondary">Change Password</a>
+        <a href="/auth/logout" class="btn btn-danger">Logout</a>
+      </div>
+    </div>
+  </div>
 
   <%- include("../layouts/footer") %>

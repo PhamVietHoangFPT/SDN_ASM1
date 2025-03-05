@@ -1,67 +1,88 @@
 <%- include("../layouts/header") %>
-  <h2>
-    <%= perfume.perfumeName %>
-  </h2>
-  <img src="<%= perfume.uri %>" alt="<%= perfume.perfumeName %>" />
-  <div style="border-bottom: 1px solid black">
-    <p>
-      <%= perfume.description %>
-    </p>
-    <p>
-      Price: $<%= perfume.price %>
-    </p>
-    <p>
-      Volume: <%= perfume.volume %> ml
-    </p>
-    <p>
-      Concentration: <%= perfume.concentration %>
-    </p>
-    <p>
-      Ingredients: <%= perfume.ingredients %>
-    </p>
-    <p>
-      Target Audience: <%= perfume.targetAudience %>
-    </p>
-    <p>
-      Brand:
-      <%= perfume.brand.brandName %>
-    </p>
+
+  <div class="container mt-4">
+    <div class="row">
+      <!-- Hình ảnh nước hoa -->
+      <div class="col-md-5">
+        <img src="<%= perfume.uri %>" alt="<%= perfume.perfumeName %>" class="img-fluid rounded shadow-sm" />
+      </div>
+
+      <!-- Thông tin nước hoa -->
+      <div class="col-md-7">
+        <h2 class="text-primary">
+          <%= perfume.perfumeName %>
+        </h2>
+        <hr />
+        <p class="text-muted">
+          <%= perfume.description %>
+        </p>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><strong>Price:</strong> $<%= perfume.price %>
+          </li>
+          <li class="list-group-item"><strong>Volume:</strong>
+            <%= perfume.volume %> ml
+          </li>
+          <li class="list-group-item"><strong>Concentration:</strong>
+            <%= perfume.concentration %>
+          </li>
+          <li class="list-group-item"><strong>Ingredients:</strong>
+            <%= perfume.ingredients %>
+          </li>
+          <li class="list-group-item"><strong>Target Audience:</strong>
+            <%= perfume.targetAudience %>
+          </li>
+          <li class="list-group-item"><strong>Brand:</strong>
+            <%= perfume.brand.brandName %>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Form thêm bình luận -->
+    <div class="mt-4">
+      <h3 class="text-secondary">Leave a Comment</h3>
+      <form action="/perfumes/<%= perfume._id %>/comment" method="POST" class="row g-3">
+        <div class="col-md-8">
+          <input name="content" id="content" class="form-control" placeholder="Write your comment..." required>
+        </div>
+        <div class="col-md-2">
+          <input type="number" name="rating" id="rating" min="1" max="5" class="form-control" placeholder="Rating"
+            required />
+        </div>
+        <div class="col-md-2">
+          <button type="submit" class="btn btn-primary w-100">Add Comment</button>
+        </div>
+      </form>
+      <% if (error) { %>
+        <p class="text-danger mt-2">
+          <%= error %>
+        </p>
+        <% } %>
+    </div>
+
+    <!-- Hiển thị bình luận -->
+    <% if (perfume.comment && perfume.comment.length> 0) { %>
+      <h3 class="mt-4">Comments</h3>
+      <ul class="list-group">
+        <% perfume.comment.forEach(comment=> { %>
+          <li class="list-group-item">
+            <h5 class="mb-1 text-primary">
+              <%= comment.author.name %>
+            </h5>
+            <p class="mb-1">
+              <%= comment.content %>
+            </p>
+            <small class="text-muted">Rating: <%= comment.rating %>/5</small>
+
+            <form action="/perfumes/<%= perfume._id %>/comment" method="GET" class="mt-2">
+              <input type="hidden" name="delete" value="true" />
+              <input type="hidden" name="commentId" value="<%= comment.id %>" />
+              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+          </li>
+          <% }) %>
+      </ul>
+      <% } %>
   </div>
 
-  </p>
-  <form action="/perfumes/<%= perfume._id %>/comment" method="POST">
-    <input name="content" id="content" placeholder="Content" required></input>
-    <input type="number" name="rating" id="rating" min="1" max="3" placeholder="Rating" style="width: 125px;"
-      required />
-    <button type="submit">Add Comment</button>
-  </form>
-  <% if (error) { %>
-    <p style="color: red">
-      <%= error %>
-    </p>
-    <% } %>
-      <% if (perfume.comment && perfume.comment.length> 0) { %>
-        <h3>Comments</h3>
-        <ul style="list-style-type: none; padding: 0;">
-          <% perfume.comment.forEach(comment=> { %>
-            <li style="border: 1px; border-style: solid; padding: 10px; margin-bottom: 10px;">
-              <h3>
-                <%= comment.author.name %>
-              </h3>
-              <p>
-                <%= comment.content %>
-              </p>
-              <p>
-                Rating: <%= comment.rating %>
-              </p>
-              <form action="/perfumes/<%= perfume._id %>/comment" method="GET">
-                <input type="hidden" name="delete" value="true" />
-                <input type="hidden" name="commentId" value="<%= comment.id %>" />
-                <button type="submit">Delete</button>
-              </form>
-            </li>
-
-            <% }) %>
-              <% } %>
-
-                <%- include("../layouts/footer") %>
+  <%- include("../layouts/footer") %>

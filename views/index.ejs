@@ -1,4 +1,36 @@
 <%- include("layouts/header") %>
-<h1>Welcome to Perfume Store</h1>
-<p>Explore the best perfumes and brands!</p>
-<%- include("layouts/footer") %>
+  <main class="container my-5">
+    <div class="text-center">
+      <h1 class="display-4 fw-bold">Welcome to Perfume Store</h1>
+      <p class="lead">Explore the best perfumes and brands!</p>
+    </div>
+
+    <section class="row mt-4">
+      <div class="col-md-6">
+        <img src="https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg" class="img-fluid rounded shadow"
+          alt="Perfume">
+      </div>
+      <div class="col-md-6">
+        <h2>About Our Store</h2>
+        <p>
+          We offer a wide selection of luxury perfumes from top brands. Whether you are looking for a signature scent
+          or a gift for someone special, we have the perfect fragrance for you.
+        </p>
+        <ul class="list-group">
+          <li class="list-group-item">Premium quality perfumes</li>
+          <li class="list-group-item">Exclusive brands and collections</li>
+          <li class="list-group-item">Fast and reliable delivery</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="text-center mt-5">
+      <h2>Why Choose Us?</h2>
+      <p class="fs-5">
+        We provide 100% authentic perfumes, excellent customer service, and the best prices in the market.
+      </p>
+      <a href="/perfumes" class="btn btn-primary btn-lg mt-3">Shop Now</a>
+    </section>
+  </main>
+
+  <%- include("layouts/footer") %>

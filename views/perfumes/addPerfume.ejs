@@ -1,39 +1,91 @@
 <%- include("../layouts/header") %>
-  <h2>Add New Brand</h2>
-  <% if (error) { %>
-    <p style="color: red">
-      <%= error %>
-    </p>
-    <% } %>
-      <form action="/perfumes/add" method="POST" style="display: flex;
-    flex-direction: column;
-    width: 50%;
-      ">
-        <input type="text" name="perfumeName" placeholder="Perfume Name" required />
-        <input type="url" name="uri" : placeholder="Perfume image url" required />
-        <input type="number" name="price" placeholder="Perfume Price" required />
-        <input type="text" name="concentration" placeholder="Perfume Concentration" required />
-        <input type="text" name="description" placeholder="Perfume Description" required />
-        <input type="text" name="ingredients" placeholder="Perfume Ingredients" required />
-        <input type="number" name="volume" placeholder="Perfume Volume" required />
-        <select name="targetAudience" id="">
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="unisex">Unisex</option>
-        </select>
 
-        <% if (brands && brands.length> 0) { %>
-          <select name="brand">
-            <% brands.forEach(brand=> { %>
-              <option value="<%= brand._id %>">
-                <%= brand.brandName %>
-              </option>
-              <% }) %>
-          </select>
-          <% } else { %>
-            <h3>No brands available</h3>
-            <% } %>
+  <div class="container mt-4">
+    <h2 class="text-primary">Add New Perfume</h2>
 
-              <button type="submit">Add Perfume</button>
-      </form>
-      <%- include("../layouts/footer") %>
+    <% if (error) { %>
+      <div class="alert alert-danger">
+        <%= error %>
+      </div>
+      <% } %>
+
+        <form action="/perfumes/add" method="POST" class="row g-3">
+          <!-- Perfume Name -->
+          <div class="col-md-6">
+            <label class="form-label">Perfume Name</label>
+            <input type="text" name="perfumeName" class="form-control" placeholder="Perfume Name" required />
+          </div>
+
+          <!-- Perfume Image URL -->
+          <div class="col-md-6">
+            <label class="form-label">Perfume Image URL</label>
+            <input type="url" name="uri" class="form-control" placeholder="Perfume Image URL" required />
+          </div>
+
+          <!-- Price -->
+          <div class="col-md-4">
+            <label class="form-label">Price ($)</label>
+            <input type="number" name="price" class="form-control" placeholder="Perfume Price" required />
+          </div>
+
+          <!-- Volume -->
+          <div class="col-md-4">
+            <label class="form-label">Volume (ml)</label>
+            <input type="number" name="volume" class="form-control" placeholder="Perfume Volume" required />
+          </div>
+
+          <!-- Concentration -->
+          <div class="col-md-4">
+            <label class="form-label">Concentration</label>
+            <input type="text" name="concentration" class="form-control" placeholder="Perfume Concentration" required />
+          </div>
+
+          <!-- Description -->
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="3" placeholder="Perfume Description"
+              required></textarea>
+          </div>
+
+          <!-- Ingredients -->
+          <div class="col-12">
+            <label class="form-label">Ingredients</label>
+            <input type="text" name="ingredients" class="form-control" placeholder="Perfume Ingredients" required />
+          </div>
+
+          <!-- Target Audience -->
+          <div class="col-md-6">
+            <label class="form-label">Target Audience</label>
+            <select name="targetAudience" class="form-select">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="unisex">Unisex</option>
+            </select>
+          </div>
+
+          <!-- Brand Selection -->
+          <% if (brands && brands.length> 0) { %>
+            <div class="col-md-6">
+              <label class="form-label">Brand</label>
+              <select name="brand" class="form-select">
+                <% brands.forEach(brand=> { %>
+                  <option value="<%= brand._id %>">
+                    <%= brand.brandName %>
+                  </option>
+                  <% }) %>
+              </select>
+            </div>
+            <% } else { %>
+              <div class="col-12">
+                <div class="alert alert-warning">No brands available</div>
+              </div>
+              <% } %>
+
+                <!-- Submit Button -->
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary w-100">Add Perfume</button>
+                </div>
+        </form>
+  </div>
+
+  <%- include("../layouts/footer") %>

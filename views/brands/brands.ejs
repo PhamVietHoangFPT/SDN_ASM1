@@ -1,37 +1,45 @@
 <%- include("../layouts/header") %>
-  <h2>Brands List</h2>
-  <% if (user) { %>
-    <% if (user.isAdmin) { %>
-      <a href="/brands/add">+ Add New Brand</a>
-      <% } }%>
-        <% if (brands && brands.length> 0) { %>
-          <% brands.forEach(brand=> { %>
-            <li>
-              <%= brand.brandName %>
-                <% if (user.isAdmin) { %> <button onclick="deleteBrand('<%= brand._id %>')">Delete</button>
-                  <% } %>
-            </li>
-            <% }) %>
-              <% } else { %>
-                <h5>No brands available</h5>
-                <% } %>
-                  <%- include("../layouts/footer") %>
 
-                    <script>
-                      function deleteBrand(brandId) {
-                        if (confirm("Are you sure you want to delete this brand?")) {
-                          fetch(`/brands/${brandId}`, {
-                            method: "DELETE"
-                          })
-                            .then((response) => response.json())
-                            .then((data) => {
-                              if (data.success) {
-                                window.location.href = "/brands";
-                                alert(data.message) // Chuyển hướng sau khi xóa thành công
-                              } else {
-                                alert("Delete failed: " + data.error);
-                              }
-                            })
-                        }
-                      }
-                    </script>
+  <div class="container mt-4">
+    <h2 class="text-primary">Brands List</h2>
+
+    <% if (user && user.isAdmin) { %>
+      <a href="/brands/add" class="btn btn-success mb-3">+ Add New Brand</a>
+      <% } %>
+
+        <% if (brands && brands.length> 0) { %>
+          <ul class="list-group">
+            <% brands.forEach(brand=> { %>
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <%= brand.brandName %>
+                  <% if (user && user.isAdmin) { %>
+                    <button class="btn btn-danger btn-sm" onclick="deleteBrand('<%= brand._id %>')">Delete</button>
+                    <% } %>
+              </li>
+              <% }) %>
+          </ul>
+          <% } else { %>
+            <div class="alert alert-warning mt-3">No brands available</div>
+            <% } %>
+  </div>
+
+  <%- include("../layouts/footer") %>
+
+    <script>
+      function deleteBrand(brandId) {
+        if (confirm("Are you sure you want to delete this brand?")) {
+          fetch(`/brands/${brandId}`, {
+            method: "DELETE"
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert(data.message);
+                window.location.href = "/brands"; // Chuyển hướng sau khi xóa thành công
+              } else {
+                alert("Delete failed: " + data.error);
+              }
+            });
+        }
+      }
+    </script>

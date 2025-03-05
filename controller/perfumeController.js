@@ -17,7 +17,7 @@ const getPerfumePage = async (req, res) => {
     conditions.push({ brand: new mongoose.Types.ObjectId(String(searchBrand)) });
   }
 
-  Perfume.find(conditions.length > 0 ? { $or: conditions } : {})
+  Perfume.find(conditions.length > 0 ? { $or: conditions } : {}).populate("brand")
     .then(perfumes => {
       res.render("perfumes/perfumes", {
         title: "Perfumes",

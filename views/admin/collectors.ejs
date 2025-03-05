@@ -1,50 +1,42 @@
 <%- include("../layouts/header") %>
-  <h1>
-    Admin - Collectors
-  </h1>
-  <style>
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
 
-    th,
-    td {
-      border: 1px solid black;
-      /* Đường viền màu đen */
-      padding: 8px;
-      text-align: left;
-    }
+  <div class="container mt-4">
+    <h1 class="text-primary">Admin - Collectors</h1>
 
-    th {
-      background-color: #f2f2f2;
-      /* Màu nền cho tiêu đề */
-    }
-  </style>
-
-  <table>
-    <tr>
-      <th>Email</th>
-      <th>Name</th>
-      <th>YOB</th>
-      <th>Gender</th>
-    </tr>
-    <% members.forEach(member=> { %>
-      <tr>
-        <td>
-          <%= member.email %>
-        </td>
-        <td>
-          <%= member.name %>
-        </td>
-        <td>
-          <%= member.YOB %>
-        </td>
-        <td>
-          <%= member.gender ? 'Male' : 'Female' %>
-        </td>
-      </tr>
-      <% }) %>
-  </table>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead class="table-light">
+          <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>YOB</th>
+            <th>Gender</th>
+            <th>Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% members.forEach(member=> { %>
+            <tr>
+              <td>
+                <%= member.email %>
+              </td>
+              <td>
+                <%= member.name %>
+              </td>
+              <td>
+                <%= member.YOB %>
+              </td>
+              <td>
+                <%= member.gender ? 'Male' : 'Female' %>
+              </td>
+              <td>
+                <%= member.isAdmin ? 'Admin' : 'Member' %>
+              </td>
+            </tr>
+            <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
   <%- include("../layouts/footer") %>

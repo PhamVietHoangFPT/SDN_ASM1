@@ -1,9 +1,13 @@
 <%- include("layouts/header") %>
 
-  <h2>Error</h2>
-  <p>
-    <%= msg %>
-  </p>
-  <a href="/">Go back to Home</a>
+  <div class="container text-center mt-5">
+    <div class="card shadow-lg p-4">
+      <h2 class="text-danger">Error</h2>
+      <p class="lead">
+        <%= msg %>
+      </p>
+      <a href="/" class="btn btn-primary mt-3">Go back to Home</a>
+    </div>
+  </div>
 
   <%- include("layouts/footer") %>
