@@ -11,4 +11,9 @@ brandRouter.route("/add")
 
 brandRouter.route("/:brandId")
   .delete(checkRole(true), brandController.deleteBrand)
+
+brandRouter.route("/update/:brandId")
+  .get(checkRole(true), brandController.getUpdateBrandPage)
+  .put(checkRole(true), brandController.updateBrand)
+  
 module.exports = brandRouter;

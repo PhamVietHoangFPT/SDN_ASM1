@@ -72,13 +72,14 @@
             <p class="mb-1">
               <%= comment.content %>
             </p>
-            <small class="text-muted">Rating: <%= comment.rating %>/5</small>
-
-            <form action="/perfumes/<%= perfume._id %>/comment" method="GET" class="mt-2">
-              <input type="hidden" name="delete" value="true" />
-              <input type="hidden" name="commentId" value="<%= comment.id %>" />
-              <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-            </form>
+            <small class="text-muted">Rating: <%= comment.rating %>/3</small>
+            <% if(comment.author.id===user.id) { %>
+              <form action="/perfumes/<%= perfume._id %>/comment" method="GET" class="mt-2">
+                <input type="hidden" name="delete" value="true" />
+                <input type="hidden" name="commentId" value="<%= comment.id %>" />
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+              <% } %>
           </li>
           <% }) %>
       </ul>

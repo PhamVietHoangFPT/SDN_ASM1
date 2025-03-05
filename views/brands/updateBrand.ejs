@@ -1,0 +1,49 @@
+<%- include("../layouts/header") %>
+
+  <div class="container mt-4">
+    <h2 class="text-primary">Update Brand</h2>
+
+    <% if (error) { %>
+      <div class="alert alert-danger">
+        <%= error %>
+      </div>
+      <% } %>
+
+        <form id="update-brand-form" action="/brands/update/<%= brand._id %>" method="POST" class="mt-3">
+          <div class="mb-3">
+            <label for="brandName" class="form-label">Brand Name</label>
+            <input type="text" id="brandName" name="brandName" class="form-control" value="<%= brand.brandName %>"
+              required />
+          </div>
+          <button type="submit" class="btn btn-primary">Update Brand</button>
+        </form>
+  </div>
+
+  <%- include("../layouts/footer") %>
+
+    <script>
+      document.getElementById("update-brand-form").addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn chặn tải lại trang mặc định
+
+        const brandId = "<%= brand._id %>"; // Lấy ID thương hiệu
+        const formData = new FormData(this); // Lấy dữ liệu từ form
+
+        fetch(`/brands/update/${brandId}`, {
+          method: "PUT",
+          body: JSON.stringify(Object.fromEntries(formData)), // Chuyển FormData thành JSON
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("Update successful!");
+              window.location.href = "/brands"; // Chuyển hướng về trang danh sách thương hiệu
+            } else {
+              alert("Update failed: " + data.error);
+            }
+          })
+          .catch(error => alert("Error: " + error.message));
+      });
+    </script>

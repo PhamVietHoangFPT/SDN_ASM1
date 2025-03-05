@@ -76,11 +76,53 @@ const deleteBrand = async (req, res) => {
       });
     }
 
-    res.json({ success: true, message: "Brand deleted successfully" });
+    res.json({ success: true, message: "Brand deleted successfully" })
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ success: false, error: error.message })
+  }
+}
+
+const getUpdateBrandPage = async (req, res) => {
+  const brandId = req.params.brandId
+  console.log(brandId)
+  const brand = await Brand.findById(brandId)
+  if (!brand) {
+    return res.status(404).json({ success: false, error: "Brand not found" })
+  }
+  res.render("brands/updateBrand", { title: "Update Brand", brand: brand, error: null })
+}
+
+const updateBrand = async (req, res) => {
+  const id = req.params.brandId
+  const { brandName } = req.body
+
+  try {
+    // Kiểm tra xem brand có tồn tại không
+    const existingBrand = await Brand.findById(id)
+    if (!existingBrand) {
+      return res.status(404).json({ success: false, error: "Brand not found" })
+    }
+
+    // Cập nhật thương hiệu
+    const updatedBrand = await Brand.findByIdAndUpdate(
+      id,
+      { brandName },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({ success: true, message: "Brand updated successfully", brand: updatedBrand })
+  } catch (error) {
+    console.error("Update Brand Error:", error)
+    res.status(500).json({ success: false, error: "Error updating brand" })
   }
 };
 
 
-module.exports = { getBrandPage, getAddBrandPage, addBrand, deleteBrand }
+module.exports = {
+  getBrandPage,
+  getAddBrandPage,
+  addBrand,
+  deleteBrand,
+  getUpdateBrandPage,
+  updateBrand
+}

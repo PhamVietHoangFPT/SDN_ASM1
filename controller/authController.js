@@ -41,8 +41,9 @@ const login = async (req, res) => {
     const member = await Member.findOne({ email });
 
     // Kiểm tra email và mật khẩu
-    if (!member || await !bcrypt.compare(password, member.password)) {
-      return res.render("auth/login", {
+    const isPasswordMatch = await bcrypt.compare(password, member.password)
+    if (!member || !isPasswordMatch) {
+      return res.status(400).render("auth/login", {
         title: "Login",
         error: "Invalid credentials",
       });

@@ -13,7 +13,11 @@
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <%= brand.brandName %>
                   <% if (user && user.isAdmin) { %>
-                    <button class="btn btn-danger btn-sm" onclick="deleteBrand('<%= brand._id %>')">Delete</button>
+                    <div>
+                      <button class="btn btn-warning btn-sm"
+                        onclick="navigateToUpdatePage('<%= brand._id %>')">Update</button>
+                      <button class="btn btn-danger btn-sm" onclick="deleteBrand('<%= brand._id %>')">Delete</button>
+                    </div>
                     <% } %>
               </li>
               <% }) %>
@@ -41,5 +45,9 @@
               }
             });
         }
+      }
+
+      function navigateToUpdatePage(brandId) {
+        window.location.href = `/brands/update/${brandId}`;
       }
     </script>

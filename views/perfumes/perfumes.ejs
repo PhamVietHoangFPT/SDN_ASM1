@@ -52,6 +52,10 @@
                         </div>
                       </a>
                       <% if (user && user.isAdmin) { %>
+                        <button class="btn btn-warning btn-sm mt-2 w-100"
+                          onclick="navigateToUpdatePage('<%= perfume._id %>')">
+                          Update
+                        </button>
                         <button class="btn btn-danger btn-sm mt-2 w-100" onclick="deletePerfume('<%= perfume._id %>')">
                           Delete
                         </button>
@@ -82,5 +86,8 @@
             })
             .catch(error => alert("Error: " + error.message));
         }
+      }
+      function navigateToUpdatePage(perfumeId) {
+        window.location.href = `/perfumes/update/${perfumeId}`;
       }
     </script>

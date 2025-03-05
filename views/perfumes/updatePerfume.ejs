@@ -1,0 +1,118 @@
+<%- include("../layouts/header") %>
+
+  <div class="container mt-4">
+    <h2 class="text-primary">Update Perfume</h2>
+
+    <% if (error) { %>
+      <div class="alert alert-danger">
+        <%= error %>
+      </div>
+      <% } %>
+
+        <form id="update-form" action="/perfumes/update/<%= perfume._id %>" method="POST" class="row g-3">
+          <!-- Perfume Name -->
+          <div class="col-md-6">
+            <label class="form-label">Perfume Name</label>
+            <input type="text" name="perfumeName" class="form-control" value="<%= perfume.perfumeName %>" required />
+          </div>
+
+          <!-- Perfume Image URL -->
+          <div class="col-md-6">
+            <label class="form-label">Perfume Image URL</label>
+            <input type="url" name="uri" class="form-control" value="<%= perfume.uri %>" required />
+          </div>
+
+          <!-- Price -->
+          <div class="col-md-4">
+            <label class="form-label">Price ($)</label>
+            <input type="number" name="price" class="form-control" value="<%= perfume.price %>" required />
+          </div>
+
+          <!-- Volume -->
+          <div class="col-md-4">
+            <label class="form-label">Volume (ml)</label>
+            <input type="number" name="volume" class="form-control" value="<%= perfume.volume %>" required />
+          </div>
+
+          <!-- Concentration -->
+          <div class="col-md-4">
+            <label class="form-label">Concentration</label>
+            <input type="text" name="concentration" class="form-control" value="<%= perfume.concentration %>"
+              required />
+          </div>
+
+          <!-- Description -->
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="3" required><%= perfume.description %></textarea>
+          </div>
+
+          <!-- Ingredients -->
+          <div class="col-12">
+            <label class="form-label">Ingredients</label>
+            <input type="text" name="ingredients" class="form-control" value="<%= perfume.ingredients %>" required />
+          </div>
+
+          <!-- Target Audience -->
+          <div class="col-md-6">
+            <label class="form-label">Target Audience</label>
+            <select name="targetAudience" class="form-select">
+              <option value="male" <%=perfume.targetAudience==="male" ? "selected" : "" %>>Male</option>
+              <option value="female" <%=perfume.targetAudience==="female" ? "selected" : "" %>>Female</option>
+              <option value="unisex" <%=perfume.targetAudience==="unisex" ? "selected" : "" %>>Unisex</option>
+            </select>
+          </div>
+
+          <!-- Brand Selection -->
+          <% if (brands && brands.length> 0) { %>
+            <div class="col-md-6">
+              <label class="form-label">Brand</label>
+              <select name="brand" class="form-select">
+                <% brands.forEach(brand=> { %>
+                  <option value="<%= brand._id %>" <%=perfume.brand==brand._id ? "selected" : "" %>>
+                    <%= brand.brandName %>
+                  </option>
+                  <% }) %>
+              </select>
+            </div>
+            <% } else { %>
+              <div class="col-12">
+                <div class="alert alert-warning">No brands available</div>
+              </div>
+              <% } %>
+
+                <!-- Submit Button -->
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary w-100">Update Perfume</button>
+                </div>
+        </form>
+  </div>
+
+  <%- include("../layouts/footer") %>
+
+    <script>
+      document.getElementById("update-form").addEventListener("submit", function (event) {
+        event.preventDefault(); // Ngăn chặn tải lại trang mặc định
+
+        const perfumeId = "<%= perfume._id %>"; // Lấy ID của nước hoa
+        const formData = new FormData(this); // Lấy dữ liệu từ form
+
+        fetch(`/perfumes/update/${perfumeId}`, {
+          method: "PUT",
+          body: JSON.stringify(Object.fromEntries(formData)), // Chuyển FormData thành JSON
+          headers: {
+            "Content-Type": "application/json"
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert("Update successful!");
+              window.location.href = "/perfumes"; // Chuyển hướng về trang danh sách
+            } else {
+              alert("Update failed: " + data.error);
+            }
+          })
+          .catch(error => alert("Error: " + error.message));
+      });
+    </script>

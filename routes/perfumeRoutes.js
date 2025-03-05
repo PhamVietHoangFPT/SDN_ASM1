@@ -14,9 +14,12 @@ perfumeRouter.route("/:id")
   .get(perfumeController.getPerfumeDetail)
   .delete(checkRole(true), perfumeController.deletePerfume)
 
-
 perfumeRouter.route("/:id/comment")
   .post(perfumeController.addComment)
   .get(perfumeController.deleteComment)
+
+perfumeRouter.route("/update/:id")
+  .get(checkRole(true), perfumeController.getUpdatePerfumePage)
+  .put(checkRole(true), perfumeController.updatePerfume)
 
 module.exports = perfumeRouter;

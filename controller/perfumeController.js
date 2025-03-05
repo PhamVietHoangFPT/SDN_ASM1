@@ -17,7 +17,7 @@ const getPerfumePage = async (req, res) => {
     conditions.push({ brand: new mongoose.Types.ObjectId(String(searchBrand)) });
   }
 
-  Perfume.find(conditions.length > 0 ? { $or: conditions } : {}).populate("brand")
+  Perfume.find(conditions.length > 0 ? { $and: conditions } : {}).populate("brand")
     .then(perfumes => {
       res.render("perfumes/perfumes", {
         title: "Perfumes",
@@ -89,14 +89,73 @@ const addPerfume = async (req, res) => {
 
 const getPerfumeDetail = async (req, res) => {
   const perfume = await Perfume.findById(req.params.id).populate('comment.author', 'name').populate("brand")
+  const user = req.cookies.user ? JSON.parse(req.cookies.user) : null
   if (!perfume) {
     return res.status(404).send("Perfume not found")
   }
   res.render("perfumes/perfumeDetail", {
     title: "Perfume Detail",
     perfume: perfume,
+    user: user,
     error: null
   })
+}
+
+const updatePerfume = async (req, res) => {
+  const perfumeId = req.params.id;
+  const updateData = {
+    perfumeName: req.body.perfumeName,
+    uri: req.body.uri,
+    price: Number(req.body.price),
+    volume: Number(req.body.volume),
+    concentration: req.body.concentration,
+    description: req.body.description,
+    ingredients: req.body.ingredients,
+    targetAudience: req.body.targetAudience,
+    brand: req.body.brand,
+  };
+
+  try {
+    const updatedPerfume = await Perfume.findByIdAndUpdate(perfumeId, updateData, { new: true })
+
+    if (!updatedPerfume) {
+      return res.status(404).json({ success: false, error: "Perfume not found" })
+    }
+
+    res.json({ success: true, perfume: updatedPerfume });
+  } catch (err) {
+    res.status(500).json({ success: false, error: "Error updating perfume" })
+  }
+};
+
+
+const getUpdatePerfumePage = async (req, res) => {
+  const perfumeId = req.params.id;
+  try {
+    const perfume = await Perfume.findById(perfumeId).populate("brand")
+    if (!perfume) {
+      return res.status(404).render("perfumes/updatePerfume", {
+        title: "Edit Perfume",
+        error: "Perfume not found",
+        brands: await Brand.find({}),
+        perfume: null
+      });
+    }
+
+    res.render("perfumes/updatePerfume", {
+      title: "Edit Perfume",
+      error: null,
+      brands: await Brand.find({}),
+      perfume: perfume
+    });
+  } catch (err) {
+    res.status(500).render("perfumes/updatePerfume", {
+      title: "Edit Perfume",
+      error: "An error occurred while updating the perfume.",
+      brands: await Brand.find({}),
+      perfume: null
+    });
+  }
 }
 
 const addComment = async (req, res) => {
@@ -182,5 +241,7 @@ module.exports = {
   getPerfumeDetail,
   addComment,
   deleteComment,
-  deletePerfume
+  deletePerfume,
+  updatePerfume,
+  getUpdatePerfumePage
 }
