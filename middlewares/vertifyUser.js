@@ -1,19 +1,18 @@
 const verifyUser = (req, res, next) => {
-  const user = req.cookies.user;
+  const user = req.cookies.user // Lấy thông tin user từ cookie
 
   if (!user) {
-    res.locals.user = null;
-    return next();
+    res.locals.user = null
+    return next()
   }
 
   try {
-    res.locals.user = user; // Lưu thông tin user vào request
+    res.locals.user = JSON.parse(user) // Lưu thông tin user vào request
   } catch (err) {
-    console.log("❌ Invalid JWT:", err.message);
-    res.locals.user = null;
+    res.locals.user = null
   }
 
-  next();
-};
+  next()
+}
 
-module.exports = verifyUser;
+module.exports = verifyUser

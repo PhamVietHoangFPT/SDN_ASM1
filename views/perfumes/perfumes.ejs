@@ -36,30 +36,39 @@
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                   <% perfumes.forEach(perfume=> { %>
                     <div class="col">
-                      <a href="/perfumes/<%= perfume._id %>" class="text-decoration-none">
-                        <div class="card h-100 shadow-sm">
-                          <img src="<%= perfume.uri %>" class="card-img-top" alt="<%= perfume.perfumeName %>">
-                          <div class="card-body">
-                            <h5 class="card-title text-dark">
-                              <%= perfume.perfumeName %>
-                            </h5>
-                            <p class="card-text">Price: $<%= perfume.price %>
-                            </p>
-                            <p class="card-text">Volume: <%= perfume.volume %> ml</p>
-                            <p class="card-text">Brand: <%= perfume.brand.brandName %>
-                            </p>
+                      <div class="card h-100 shadow-sm">
+                        <img src="<%= perfume.uri %>" class="card-img-top" alt="<%= perfume.perfumeName %>">
+                        <div class="card-body">
+                          <h5 class="card-title fw-bold text-dark text-center">
+                            <%= perfume.perfumeName %>
+                          </h5>
+                          <p class="text-danger fw-bold text-center fs-5">
+                            $<%= perfume.price.toLocaleString() %>
+                          </p>
+                          <ul class="list-unstyled text-muted small">
+                            <li>Volume: <%= perfume.volume %> ml</li>
+                            <li>Brand: <%= perfume.brand.brandName %>
+                            </li>
+                          </ul>
+                          <div class="mt-auto">
+                            <a href="/perfumes/<%= perfume._id %>" class="btn btn-primary w-100 mb-2">
+                              View Details
+                            </a>
                           </div>
+                          <% if (user && user.isAdmin) { %>
+                            <button class="btn btn-warning btn-sm mt-2 w-100"
+                              onclick="navigateToUpdatePage('<%= perfume._id %>')">
+                              Update
+                            </button>
+                            <button class="btn btn-danger btn-sm mt-2 w-100"
+                              onclick="deletePerfume('<%= perfume._id %>')">
+                              Delete
+                            </button>
+                            <% } %>
                         </div>
-                      </a>
-                      <% if (user && user.isAdmin) { %>
-                        <button class="btn btn-warning btn-sm mt-2 w-100"
-                          onclick="navigateToUpdatePage('<%= perfume._id %>')">
-                          Update
-                        </button>
-                        <button class="btn btn-danger btn-sm mt-2 w-100" onclick="deletePerfume('<%= perfume._id %>')">
-                          Delete
-                        </button>
-                        <% } %>
+                      </div>
+
+
                     </div>
                     <% }) %>
                 </div>

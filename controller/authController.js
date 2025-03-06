@@ -40,6 +40,14 @@ const login = async (req, res) => {
   try {
     const member = await Member.findOne({ email });
 
+    // Kiểm tra user tồn tại
+    if (!member) {
+      return res.status(400).render("auth/login", {
+        title: "Login",
+        error: "User not found",
+      });
+    }
+
     // Kiểm tra email và mật khẩu
     const isPasswordMatch = await bcrypt.compare(password, member.password)
     if (!member || !isPasswordMatch) {
@@ -54,13 +62,14 @@ const login = async (req, res) => {
 
     // Nếu là admin, chuyển hướng đến /admin
     if (member.isAdmin) {
-      return res.redirect("/admin");
+      return res.status(200).redirect("/admin");
     }
 
     // Nếu không phải admin, chuyển hướng về trang chủ
     res.redirect("/");
   } catch (err) {
-    res.render("auth/login", { title: "Login", error: "Server error" });
+    console.log(err)
+    res.status(500).render("auth/login", { title: "Login", error: "Server error" });
   }
 };
 

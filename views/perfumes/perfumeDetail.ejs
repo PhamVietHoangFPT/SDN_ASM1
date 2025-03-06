@@ -39,51 +39,57 @@
     </div>
 
     <!-- Form thêm bình luận -->
-    <div class="mt-4">
-      <h3 class="text-secondary">Leave a Comment</h3>
-      <form action="/perfumes/<%= perfume._id %>/comment" method="POST" class="row g-3">
-        <div class="col-md-8">
-          <input name="content" id="content" class="form-control" placeholder="Write your comment..." required>
-        </div>
-        <div class="col-md-2">
-          <input type="number" name="rating" id="rating" min="1" max="5" class="form-control" placeholder="Rating"
-            required />
-        </div>
-        <div class="col-md-2">
-          <button type="submit" class="btn btn-primary w-100">Add Comment</button>
-        </div>
-      </form>
-      <% if (error) { %>
-        <p class="text-danger mt-2">
-          <%= error %>
+    <% if (user) {%>
+      <div class="mt-4">
+        <h3 class="text-secondary">Leave a Comment</h3>
+        <form action="/perfumes/<%= perfume._id %>/comment" method="POST" class="row g-3">
+          <div class="col-md-8">
+            <input name="content" id="content" class="form-control" placeholder="Write your comment..." required>
+          </div>
+          <div class="col-md-2">
+            <input type="number" name="rating" id="rating" min="1" max="5" class="form-control" placeholder="Rating"
+              required />
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Add Comment</button>
+          </div>
+        </form>
+        <% if (error) { %>
+          <p class="text-danger mt-2">
+            <%= error %>
+          </p>
+          <% } %>
+      </div>
+      <% } else { %>
+        <p class="mt-4">
+          <a href="/auth/login">Login</a> to leave a comment.
         </p>
         <% } %>
-    </div>
 
-    <!-- Hiển thị bình luận -->
-    <% if (perfume.comment && perfume.comment.length> 0) { %>
-      <h3 class="mt-4">Comments</h3>
-      <ul class="list-group">
-        <% perfume.comment.forEach(comment=> { %>
-          <li class="list-group-item">
-            <h5 class="mb-1 text-primary">
-              <%= comment.author.name %>
-            </h5>
-            <p class="mb-1">
-              <%= comment.content %>
-            </p>
-            <small class="text-muted">Rating: <%= comment.rating %>/3</small>
-            <% if(comment.author.id===user.id) { %>
-              <form action="/perfumes/<%= perfume._id %>/comment" method="GET" class="mt-2">
-                <input type="hidden" name="delete" value="true" />
-                <input type="hidden" name="commentId" value="<%= comment.id %>" />
-                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-              </form>
-              <% } %>
-          </li>
-          <% }) %>
-      </ul>
-      <% } %>
+          <!-- Hiển thị bình luận -->
+          <% if (perfume.comment && perfume.comment.length> 0) { %>
+            <h3 class="mt-4">Comments</h3>
+            <ul class="list-group">
+              <% perfume.comment.forEach(comment=> { %>
+                <li class="list-group-item">
+                  <h5 class="mb-1 text-primary">
+                    <%= comment.author.name %>
+                  </h5>
+                  <p class="mb-1">
+                    <%= comment.content %>
+                  </p>
+                  <small class="text-muted">Rating: <%= comment.rating %>/3</small>
+                  <% if(user && comment.author.id===user.id) { %>
+                    <form action="/perfumes/<%= perfume._id %>/comment" method="GET" class="mt-2">
+                      <input type="hidden" name="delete" value="true" />
+                      <input type="hidden" name="commentId" value="<%= comment.id %>" />
+                      <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                    <% } %>
+                </li>
+                <% }) %>
+            </ul>
+            <% } %>
   </div>
 
   <%- include("../layouts/footer") %>

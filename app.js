@@ -29,15 +29,15 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(verifyUser)
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Truyền thông tin user vào res.locals để sử dụng trong UI
 // app.use((req, res, next) => {
-//   res.locals.user = req.cookies.token || null;
+//   res.locals.user = req.cookies.user || null;
 //   next();
 // });
 
-app.use(verifyUser)
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
